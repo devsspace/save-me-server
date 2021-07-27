@@ -1,6 +1,7 @@
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import { JWT , BCrypt } from 'jwt-auth-helper';
 import User from '../models/user.js';
+
+const jwt = new JWT(process.env.JWTSECRET || "JWT_SECRET_KEY");
 
 export const login = async (req, res) => {
     const { email, password } = req.body;
@@ -10,13 +11,11 @@ export const login = async (req, res) => {
         
         if(!existingUser) return res.json({ message: "User doesn't exist!" });
         
-        const isPasswordCorrect = bcrypt.compare(password, existingUser.password);
+        const isPasswordCorrect = BCrypt.compareHash(password , existingUser.password);
 
         if(!isPasswordCorrect) return res.json({ message: "Intruder!!" });
 
-        const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, process.env.JWTSECRET, 
-            // { expiresIn: '1h'}
-            );
+        const token = jwt.generateJWTToken({ email: existingUser.email, id: existingUser._id }, '1h');
 
         res.status(200).json({ user: existingUser, token});
 
@@ -37,11 +36,11 @@ export const signup = async (req, res) => {
     
         if(password !== confirmPassword) return res.json({ message: "Passwords don't match"});
 
-        const hashedPassword = await bcrypt.hash(password, 12);
+        const hashedPassword = await BCrypt.makeHash(password, 12);
 
         const result = await User.create({ userName, email, password: hashedPassword });
 
-        const token = jwt.sign({ email: result.email, id: result._id }, process.env.JWTSECRET, { expiresIn: '1h'});
+        const token = jwt.generateJWTToken({ email: result.email, id: result._id }, '1h');
 
         res.status(200).json({ user: result, token });
     } catch (error) {
