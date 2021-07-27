@@ -16,7 +16,7 @@ app.use('/user', userRoutes);
 
 
 app.get('/', (req, res) => {
-    res.send("Welcome to Save Me API");
+    res.send("Hello and Welcome to Save Me API");
 });
 
 const CONNECTION_URL = process.env.CONNECTION_URL;
