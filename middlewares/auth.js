@@ -1,22 +1,21 @@
-import jwt from "jsonwebtoken";
+// dotenv must implemented on top cause jwt-auth-helper depends on process.envy
+require('dotenv').config();
+const { JWT } = require('jwt-auth-helper');
 
-const auth = async (req, res, next) => {
+const authenticate = async (req, res, next) => {
     try {
+        // If give no parameter , it takes process.env.JWT_SECRET_KEY by default
+        const jwt = new JWT();
         const token = req.headers.authorization?.split(" ")[1];
         const isCustomAuth = token?.length < 500;
 
         let decodedData;
 
         if (token && isCustomAuth) {
-            decodedData = jwt.verify(token, process.env.JWTSECRET);
+            decodedData = jwt.verifyToken(token);
             req.userId = decodedData?.id;
         }
-        
-        else {
-            decodedData = jwt.decode(token);
-            req.userId = decodedData?.sub;
-        }
-        if(!req.userId) return res.status(400).json({ message: "No user found."});
+        if (!req.userId) return res.status(401).json({ message: "Unauthorized." });
 
         next();
 
@@ -25,4 +24,4 @@ const auth = async (req, res, next) => {
     }
 };
 
-export default auth;
+module.exports = authenticate;
