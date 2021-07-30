@@ -30,6 +30,11 @@ app.post('/', async (req, res) => {
     res.json({ createdNews });
 });
 
+app.get('/', async (req, res) => {
+    // console.log({ createdNews });
+    res.json({ message: "It works" });
+})
+
 app.use((error, req, res, next) => {
     res.status(403).json({
         name: error.name || "Internel Server Error",
