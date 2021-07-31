@@ -26,23 +26,25 @@ export const login = async (req, res) => {
 }
 
 export const signup = async (req, res) => {
-    const { name, username, phone, email, password, confirmPassword } = req.body;
+    const { email, password, confirmPassword, role } = req.body;
 
+    console.log(req.body)
     try {
 
+        
         const existingUser = await User.findOne({ email });
 
         if (existingUser?.email) return res.json({ message: "User already exists! Please login now" });
         const hashedPassword = await BCrypt.makeHash(password, 12);
 
-        const result = await User.create({ name, username, phone, email, password: hashedPassword });
+        const result = await User.create({ email, password: hashedPassword, role });
 
         const token = jwt.generateJWTToken({ email: result.email, id: result._id }, '1h');
 
         res.status(200).json({ user: result, token });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: "Something went wrong!" });
+        res.json({ message: error.message || "Something went wrong!" });
     }
 }
 

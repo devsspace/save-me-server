@@ -1,16 +1,6 @@
-import { BCrypt } from 'jwt-auth-helper';
 import mongoose from "mongoose";
-import permissions from 'mongoose-permissions';
 
 const userSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-    },
-    username: {
-        type: String
-    },
-    profilePic: String,
     email: {
         type: String,
         required: true,
@@ -19,7 +9,21 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-
+    role: {
+        type: String,
+        required: true,
+        default: "user",
+    },
+    // permissions: [{ name: String }],
+    name: {
+        type: String,
+    },
+    username: {
+        type: String
+    },
+    profilePic: {
+        type: String,
+    },
     phone: {
         type: String,
     },
@@ -28,21 +32,16 @@ const userSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        required: true
-    }
-    // role: {
-    //     name: String,
-    //     permissions: [{ name: String }],
-    // },
-    // permissions: [{ name: String }],
-}).plugin(permissions);
+    },
+})
+// .plugin(permissions);
 
-// mutator bcrypt password method implement here
-userSchema.pre('save', async function (cb) {
-    // check is new
-    if (this.isNew) {
-        this.password = await BCrypt.makeHash(this.password);
-    }
-});
+// // mutator bcrypt password method implement here
+// userSchema.pre('save', async function (cb) {
+//     // check is new
+//     if (this.isNew) {
+//         this.password = await BCrypt.makeHash(this.password);
+//     }
+// });
 
 export default mongoose.model("User", userSchema);
