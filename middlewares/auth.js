@@ -1,6 +1,7 @@
 // dotenv must implemented on top cause jwt-auth-helper depends on process.envy
-require('dotenv').config();
-const { JWT } = require('jwt-auth-helper');
+import dotenv from "dotenv";
+import { JWT } from 'jwt-auth-helper';
+dotenv.config();
 
 const authenticate = async (req, res, next) => {
     try {
@@ -24,4 +25,4 @@ const authenticate = async (req, res, next) => {
     }
 };
 
-module.exports = authenticate;
+export default authenticate;
