@@ -2,8 +2,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
-import News from './models/News.model';
-import userRoutes from './routes/users';
+import News from './models/News.model.js';
+import userRoutes from './routes/users.js';
 
 const app = express();
 dotenv.config();

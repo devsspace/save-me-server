@@ -1,9 +1,9 @@
 import { BCrypt, JWT } from 'jwt-auth-helper';
-import User from '../models/User.model';
+import User from '../models/User.model.js';
 
 const jwt = new JWT(process.env.JWT_SECRET_KEY || "JWT_SECRET_KEY");
 
-exports.login = async (req, res) => {
+export const login = async (req, res) => {
     const { email, password } = req.body;
 
     try {
@@ -25,7 +25,7 @@ exports.login = async (req, res) => {
     }
 }
 
-exports.signup = async (req, res) => {
+export const signup = async (req, res) => {
     const { name, username, phone, email, password, confirmPassword } = req.body;
 
     try {
@@ -46,7 +46,7 @@ exports.signup = async (req, res) => {
     }
 }
 
-exports.getUser = async (req, res) => {
+export const getUser = async (req, res) => {
     const { userId } = req;
 
     try {

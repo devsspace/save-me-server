@@ -1,8 +1,8 @@
 import { BCrypt } from 'jwt-auth-helper';
-import { model, Schema } from "mongoose";
+import mongoose from "mongoose";
 import permissions from 'mongoose-permissions';
 
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -45,4 +45,4 @@ userSchema.pre('save', async function (cb) {
     }
 });
 
-module.exports = model("User", userSchema);
+export default mongoose.model("User", userSchema);

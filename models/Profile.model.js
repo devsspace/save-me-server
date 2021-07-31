@@ -25,4 +25,4 @@ const modelSchema = new Schema({
     }
 });
 
-module.exports = model("Profile", modelSchema);
+export default model("Profile", modelSchema);

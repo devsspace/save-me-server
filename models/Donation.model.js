@@ -24,4 +24,4 @@ const modelSchema = new Schema({
     }
 })
 
-module.exports = model("Donotion", userSchema);
+export default model("Donation", userSchema);

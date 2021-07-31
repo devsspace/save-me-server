@@ -45,11 +45,11 @@ newsSchema.pre('save', async function (next) {
 
     // otherwise generating slug using slugify
     // keep previous slug on update
-}), // registering the plugin
+}) // registering the plugin
 
 
 
-    module.exports = mongoose.model('News', newsSchema);
+export default mongoose.model('News', newsSchema);
 
 
 // .pre('save', async function () {
