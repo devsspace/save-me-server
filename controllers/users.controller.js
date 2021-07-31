@@ -1,5 +1,5 @@
-const { JWT, BCrypt } = require('jwt-auth-helper');
-const User = require('../models/User.model');
+import { BCrypt, JWT } from 'jwt-auth-helper';
+import User from '../models/User.model';
 
 const jwt = new JWT(process.env.JWT_SECRET_KEY || "JWT_SECRET_KEY");
 

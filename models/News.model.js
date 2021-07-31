@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+// require mongoose-simple-slugify in your schema
+import slugify from 'mongoose-simple-slugify';
 const { Schema } = mongoose;
 
-// require mongoose-simple-slugify in your schema
-const slugify = require('mongoose-simple-slugify');
 
 const newsSchema = new Schema(
     {

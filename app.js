@@ -1,8 +1,9 @@
-const cors = require('cors');
-const dotenv = require('dotenv');
-const express = require('express');
-const mongoose = require('mongoose');
-const userRoutes = require('./routes/users');
+import cors from 'cors';
+import dotenv from 'dotenv';
+import express from 'express';
+import mongoose from 'mongoose';
+import News from './models/News.model';
+import userRoutes from './routes/users';
 
 const app = express();
 dotenv.config();
@@ -12,7 +13,6 @@ app.use(cors({ origin: true }));
 
 app.use('/user', userRoutes);
 
-const News = require('./models/News.model');
 
 app.put('/:id', async (req, res) => {
     let news = await News.findById(req.params.id);

@@ -1,6 +1,6 @@
-const { BCrypt } = require('jwt-auth-helper');
-const { model, Schema } = require("mongoose");
-const permissions = require('mongoose-permissions');
+import { BCrypt } from 'jwt-auth-helper';
+import { model, Schema } from "mongoose";
+import permissions from 'mongoose-permissions';
 
 const userSchema = new Schema({
     name: {
