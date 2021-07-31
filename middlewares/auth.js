@@ -9,12 +9,14 @@ const authenticate = async (req, res, next) => {
         const jwt = new JWT();
         const token = req.headers.authorization?.split(" ")[1];
         const isCustomAuth = token?.length < 500;
-
         let decodedData;
-
+        
         if (token && isCustomAuth) {
-            decodedData = jwt.verifyToken(token);
-            req.userId = decodedData?.id;
+          decodedData = jwt.verifyToken(token);
+          req.userId = decodedData?.id;
+        } else {
+          decodedData = jwt.verifyToken(token);
+          req.userId = decodedData?.sub;
         }
         if (!req.userId) return res.status(401).json({ message: "Unauthorized." });
 
@@ -22,6 +24,7 @@ const authenticate = async (req, res, next) => {
 
     } catch (error) {
         console.log(error);
+        res.json({ message: "Can't verify token!"})
     }
 };
 

@@ -11,8 +11,8 @@ export const login = async (req, res) => {
 
         if (!existingUser) return res.json({ message: "User doesn't exist!" });
 
-        const isPasswordCorrect = BCrypt.compareHash(password, existingUser.password);
-
+        const isPasswordCorrect = await BCrypt.compareHash(password, existingUser.password);
+        console.log(isPasswordCorrect)
         if (!isPasswordCorrect) return res.json({ message: "Intruder!!" });
 
         const token = jwt.generateJWTToken({ email: existingUser.email, id: existingUser._id }, '1h');
@@ -28,7 +28,6 @@ export const login = async (req, res) => {
 export const signup = async (req, res) => {
     const { email, password, confirmPassword, role } = req.body;
 
-    console.log(req.body)
     try {
 
         
