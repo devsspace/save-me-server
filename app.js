@@ -4,6 +4,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import News from './models/News.model.js';
 import donorsRoutes from './routes/donors.js';
+import requestBloodRoutes from './routes/requestBlood.js';
 import userRoutes from './routes/users.js';
 
 const app = express();
@@ -14,6 +15,7 @@ app.use(cors({ origin: true }));
 
 app.use('/user', userRoutes);
 app.use('/donors', donorsRoutes);
+app.use('/request-blood', requestBloodRoutes)
 
 
 app.put('/:id', async (req, res) => {
