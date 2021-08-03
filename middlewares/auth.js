@@ -18,13 +18,13 @@ const authenticate = async (req, res, next) => {
           decodedData = jwt.verifyToken(token);
           req.userId = decodedData?.sub;
         }
-        if (!req.userId) return res.status(401).json({ message: "Unauthorized." });
+        if (!req.userId) return res.json({ message: "Unauthorized!!" });
 
         next();
 
     } catch (error) {
         console.log(error);
-        res.json({ message: "Can't verify token!"})
+        res.json({ message: "Unauthenticated!"})
     }
 };
 

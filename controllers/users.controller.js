@@ -61,3 +61,26 @@ export const getUser = async (req, res) => {
         res.status(500).json({ message: "Something went wrong!" });
     }
 };
+
+export const updateProfile = async (req, res) => {
+    const profileInfo = req.body;
+    const { userId } = req;
+
+    try {
+        const existingUser = await User.findOne({ _id: profileInfo._id, email: profileInfo.email });
+
+        if (!existingUser) return res.json({ message: "No user found for this profile!" });
+        
+        if(existingUser._id != userId) return res.json({ message: "Unauthorized!"})
+        
+        const result = await User.updateOne({_id: userId}, profileInfo)
+        
+        if(result.nModified > 0) return res.status(200).json({ user: profileInfo });
+
+        res.json({message: "Nothing's changed!"})
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Something went wrong!" });
+    }
+};
