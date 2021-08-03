@@ -4,7 +4,7 @@ import authenticate from '../middlewares/auth.js';
 
 const router = express.Router();
 
-router.get('/', getDonors);
 router.get('/:donorId', authenticate, getDonor);
+router.get('/', getDonors);
 
 export default router;

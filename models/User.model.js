@@ -25,7 +25,7 @@ const userSchema = new Schema({
     profilePic: {
         type: String,
     },
-    phone: {
+    phoneNumber: {
         type: String,
     },
     location: {
