@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
 import News from './models/News.model.js';
+import donationRoutes from './routes/donations.js';
 import donorsRoutes from './routes/donors.js';
 import requestBloodRoutes from './routes/requestBlood.js';
 import userRoutes from './routes/users.js';
@@ -15,6 +16,7 @@ app.use(cors({ origin: true }));
 
 app.use('/user', userRoutes);
 app.use('/donors', donorsRoutes);
+app.use('/donation', donationRoutes);
 app.use('/request-blood', requestBloodRoutes)
 
 

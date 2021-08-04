@@ -1,27 +1,19 @@
-import { model, Schema } from "mongoose";
+import mongoose from "mongoose";
+const { model, Schema } = mongoose;
 
-const modelSchema = new Schema({
-    name: {
-        type: String,
-        required: true,
-    },
-    username: {
-        type: String,
-        required: true,
-    },
-    phone: {
-        type: String,
-        required: true,
-    },
-    email: {
-        type: String,
-        required: true,
-    },
-    blood_group: String,
-    password: {
-        type: String,
-        required: true,
-    }
-})
+const donationSchema = new Schema({
+  askedBy: {
+    type: Schema.Types.Mixed,
+    required: true,
+  },
+  askedTo: {
+    type: Schema.Types.Mixed,
+    required: true,
+  },
+  details: {
+    type: String,
+    required: true,
+  },
+});
 
-export default model("Donation", userSchema);
+export default model("Donation", donationSchema);
