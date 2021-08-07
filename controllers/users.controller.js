@@ -15,7 +15,8 @@ export const login = async (req, res) => {
         console.log(isPasswordCorrect)
         if (!isPasswordCorrect) return res.json({ message: "Intruder!!" });
 
-        const token = jwt.generateJWTToken({ email: existingUser.email, id: existingUser._id }, '1h');
+        const token = jwt.generateJWTToken({ email: existingUser.email, id: existingUser._id, role: existingUser.role }, '1h');
+
 
         res.status(200).json({ user: existingUser, token });
 
@@ -38,7 +39,7 @@ export const signup = async (req, res) => {
 
         const result = await User.create({ email, password: hashedPassword, role });
 
-        const token = jwt.generateJWTToken({ email: result.email, id: result._id }, '1h');
+        const token = jwt.generateJWTToken({ email: result.email, id: result._id, role: result.role }, '1h');
 
         res.status(200).json({ user: result, token });
     } catch (error) {

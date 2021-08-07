@@ -14,9 +14,11 @@ const authenticate = async (req, res, next) => {
         if (token && isCustomAuth) {
           decodedData = jwt.verifyToken(token);
           req.userId = decodedData?.id;
+          req.role = decodedData?.role;
         } else {
           decodedData = jwt.verifyToken(token);
           req.userId = decodedData?.sub;
+          req.role = decodedData?.role;
         }
         if (!req.userId) return res.json({ message: "Unauthorized!!" });
 

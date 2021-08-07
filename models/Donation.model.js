@@ -10,6 +10,10 @@ const donationSchema = new Schema({
     type: Schema.Types.Mixed,
     required: true,
   },
+  date: {
+    type: Date,
+    require: true,
+  },
   details: {
     type: String,
     required: true,
