@@ -1,4 +1,22 @@
 import Donation from "../models/Donation.model.js";
+import Client from "twilio"
+
+const sendTextMessage = async (askedTo, askedBy) => {
+    const client = new Client(process.env.TWILIO_SID,process.env.TWILIO_AUTH_TOKEN)
+    
+    try {
+        const result = await client.messages.create({
+            body: `Hello ${askedTo.name}, you have a donation request from ${askedBy.name}. Please contact at ${askedBy.phoneNumber}`,
+            to: askedTo.phoneNumber,
+            from: process.env.TWILIO_FROM_NUMBER
+         });
+        console.log(result);
+        return true;
+    } catch (error) {
+        console.log(error);    
+        return;
+    } 
+}
 
 export const askDonation = async (req, res) => {
     const donationInfo = req.body;
@@ -8,8 +26,9 @@ export const askDonation = async (req, res) => {
         if (donationInfo?.askedBy?._id != userId) return res.json({ message: "Unauthorized!" });
 
         const data = await Donation.create({ ...donationInfo, requestedBy: userId });
-
-        res.status(200).json(data);
+        const done = sendTextMessage(data.askedTo, data.askedBy)
+        if(done) return res.status(200).json(data);
+        return res.json({message: "Something went wrong. Please try again."})
     } catch (error) {
         console.log(error);
         res.json({ message: error.message || "something went wrong" });
