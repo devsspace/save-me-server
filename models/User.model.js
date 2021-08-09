@@ -37,6 +37,10 @@ const userSchema = new Schema({
     status: {
         type: String,
     },
+    eligibility: {
+        type: String,
+        default: "eligible"
+    }
 })
 // .plugin(permissions);
 

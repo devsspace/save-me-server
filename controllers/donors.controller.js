@@ -2,7 +2,6 @@ import User from "../models/User.model.js";
 
 export const getDonors = async (req, res) => {
   let filter = { role: "donor"};
-
   if(Object.keys(req.query)?.length){
     const { bloodGroup, location, date, eligibility } = req.query
     const bloodGroupRegex = new RegExp(bloodGroup, "i")
@@ -14,7 +13,6 @@ export const getDonors = async (req, res) => {
   
   try {
     const donors = await User.find(filter)
-    console.log(donors)
 
     res.status(200).json(donors)
   } catch (error) {
