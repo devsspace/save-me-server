@@ -13,7 +13,7 @@ const userSchema = new Schema({
     role: {
         type: String,
         required: true,
-        default: "user",
+        default: "donor",
     },
     // permissions: [{ name: String }],
     name: {
@@ -37,6 +37,13 @@ const userSchema = new Schema({
     status: {
         type: String,
     },
+    eligibility: {
+        type: String,
+        default: "eligible"
+    },
+    lastDonationDate: {
+        type: Date,
+    }
 })
 // .plugin(permissions);
 
