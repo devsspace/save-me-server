@@ -31,9 +31,12 @@ export const signup = async (req, res) => {
     const { email, password, confirmPassword, lastDonationDate } = req.body;
 
     try {
-        const donationBefore = new Date().getTime() - Date.parse(lastDonationDate);
-        const fourMonth = 4 * 30 * 24 * 60 * 60 * 1000;
-        const eligibility = donationBefore >= fourMonth ? "eligible" : "not eligible";
+        let eligibility = "eligible";
+        if(lastDonationDate){
+            const donationBefore = new Date().getTime() - Date.parse(lastDonationDate);
+            const fourMonth = 4 * 30 * 24 * 60 * 60 * 1000;
+            eligibility = donationBefore >= fourMonth ? "eligible" : "not eligible";
+        }
 
         const existingUser = await User.findOne({ email });
 

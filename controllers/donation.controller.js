@@ -1,5 +1,5 @@
+import Client from "twilio";
 import Donation from "../models/Donation.model.js";
-import Client from "twilio"
 
 const sendTextMessage = async (askedTo, askedBy) => {
     const client = new Client(process.env.TWILIO_SID,process.env.TWILIO_AUTH_TOKEN)
@@ -11,7 +11,7 @@ const sendTextMessage = async (askedTo, askedBy) => {
             from: process.env.TWILIO_FROM_NUMBER
          });
         console.log(result);
-        return true;
+        return result.sid ? true : false;
     } catch (error) {
         console.log(error);    
         return;
