@@ -37,8 +37,9 @@ export const askDonation = async (req, res) => {
 
 export const getDonations = async (req, res) => {
     const { userId, role } = req;
-
+    console.log(req.query)
     try {
+        const type = req.query.type;
         const limit = parseInt(req.query.limit);
         const skip = parseInt(req.query.skip);
         const bloodGroup = new RegExp(req.query.bloodGroup.replace("+", "\\+"), "i"); // regex for ignoring case
@@ -46,7 +47,10 @@ export const getDonations = async (req, res) => {
         
         const filter = {};
 
-        if (role !== "admin") filter["askedBy._id"] = userId;
+        if (role !== "admin"){
+            if(type === "requestedByMe") filter["askedBy._id"] = userId;
+            if(type === "requestedToMe") filter["askedTo._id"] = userId;  
+        } 
 
         if (bloodGroup && !"all".match(bloodGroup)) filter["askedTo.bloodGroup"] = bloodGroup;
         
@@ -54,8 +58,17 @@ export const getDonations = async (req, res) => {
 
         const data = await Donation.find(filter).sort({ date: 1 }).skip(skip).limit(limit);
         const total = await Donation.countDocuments(filter);
+
+        // let requestedToMe, total2;
+        // if(role !== "admin"){
+        //     delete filter["askedBy._id"];
+        //     filter["askedTo._id"] = userId;
+
+        //     requestedToMe = await Donation.find(filter).sort({ date: 1 }).skip(skip).limit(limit);
+        //     total2 = await Donation.countDocuments(filter);
+        // }
         
-        res.status(200).json({ donors: data, total });
+        res.status(200).json({ donations: data, total });
 
     } catch (error) {
         console.log(error);
