@@ -41,16 +41,16 @@ export const getDonations = async (req, res) => {
     try {
         const limit = parseInt(req.query.limit);
         const skip = parseInt(req.query.skip);
-        const bloodGroup = new RegExp(req.query.bloodGroup, "i"); // regex for ignoring case
+        const bloodGroup = new RegExp(req.query.bloodGroup.replace("+", "\\+"), "i"); // regex for ignoring case
         const location = new RegExp(req.query.location, "i");
-
+        
         const filter = {};
 
         if (role !== "admin") filter["askedBy._id"] = userId;
 
-        if (bloodGroup && !"all".match(bloodGroup)) filter["askedTo.bloodGroup"] = req.query.bloodGroup;
+        if (bloodGroup && !"all".match(bloodGroup)) filter["askedTo.bloodGroup"] = bloodGroup;
         
-        if (location && !"all".match(location)) filter["askedTo.location"] = req.query.location;
+        if (location && !"all".match(location)) filter["askedTo.location"] = location;
 
         const data = await Donation.find(filter).sort({ date: 1 }).skip(skip).limit(limit);
         const total = await Donation.countDocuments(filter);
