@@ -24,6 +24,10 @@ const donationSchema = new Schema({
         type: String,
         required: true,
     },
+    status: {
+        type: String,
+        default: "Pending",
+    }
 });
 
 export default model("Donation", donationSchema);
