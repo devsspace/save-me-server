@@ -20,7 +20,8 @@
     "mongoose": "^5.12.5",
     "mongoose-permissions": "^1.0.0",
     "mongoose-simple-slugify": "^1.2.10",
-    "twilio": "^3.66.1"
+    "twilio": "^3.66.1",
+    "validator": "^13.6.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.12"
