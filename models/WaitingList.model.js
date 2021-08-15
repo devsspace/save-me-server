@@ -2,8 +2,16 @@ import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
 const waitingListSchema = new Schema({
-  id: {
+  patientId: {
     type: Schema.Types.ObjectId,
+    required: true,
+  },
+  doctorId: {
+    type: Schema.Types.ObjectId,
+    required: true,
+  },
+  serial: {
+    type: Number,
     required: true,
   },
   email: {

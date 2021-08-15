@@ -10,7 +10,7 @@ export const signupValidator = async (req, res, next) => {
 
   if (!password) return res.json({ message: "Password is required!" });
 
-  if (!(password?.length > 6))
+  if (!(password?.length >= 6))
     return res.json({ message: "Do you tell that a password?" });
 
   if (password !== confirmPassword)

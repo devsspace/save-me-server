@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 import { Server } from 'socket.io';
 import { handlePatients } from './controllers/consults.controller.js';
 import consultRoutes from './routes/consults.js';
+import doctorRoutes from './routes/doctors.js';
 import donationRoutes from './routes/donations.js';
 import donorsRoutes from './routes/donors.js';
 import requestBloodRoutes from './routes/requestBlood.js';
@@ -26,7 +27,7 @@ app.use('/donors', donorsRoutes);
 app.use('/donation', donationRoutes);
 app.use('/request-blood', requestBloodRoutes);
 app.use('/consult', consultRoutes);
-
+app.use('/doctors', doctorRoutes);
 
 
 const io = new Server(server, {
