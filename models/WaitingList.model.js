@@ -14,6 +14,7 @@ const waitingListSchema = new Schema({
     type: Number,
     required: true,
   },
+  // Optionals
   email: {
     type: String,
   },

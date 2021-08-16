@@ -2,8 +2,10 @@ import WaitingList from "../models/WaitingList.model.js";
 
 
 export const getWaitingList = async (req, res) => {
+  const { doctorId } = req.params;
+
   try {
-    const list = await WaitingList.find({});
+    const list = await WaitingList.find({doctorId});
     res.json(list)
   } catch (error) {}
 }

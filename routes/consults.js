@@ -4,6 +4,6 @@ import authenticate from "../middlewares/auth.js";
 
 const router = express.Router();
 
-router.get("/", authenticate, getWaitingList);
+router.get("/:doctorId", authenticate, getWaitingList);
 
 export default router;
