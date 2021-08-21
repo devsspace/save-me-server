@@ -28,10 +28,14 @@ export const login = async (req, res) => {
 };
 
 export const signup = async (req, res) => {
-    const { email, password, confirmPassword, lastDonationDate } = req.body;
-
+    const { email, password, confirmPassword, lastDonationDate, role } = req.body;
+    
     try {
+        let userRole = ["donor"]
         let eligibility = "eligible";
+        
+        if(role === "doctor") userRole.push("doctor");
+
         if(lastDonationDate){
             const donationBefore = new Date().getTime() - Date.parse(lastDonationDate);
             const fourMonth = 4 * 30 * 24 * 60 * 60 * 1000;
@@ -43,11 +47,11 @@ export const signup = async (req, res) => {
         if (existingUser?.email)
             return res.json({ message: "User already exists! Please login now" });
         const hashedPassword = await BCrypt.makeHash(password, 12);
-
+        console.log(userRole)
         const result = await User.create({
             email,
             password: hashedPassword,
-            role: "donor",
+            role: userRole,
             eligibility,
         });
 

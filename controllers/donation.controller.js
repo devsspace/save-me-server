@@ -52,7 +52,7 @@ export const getDonations = async (req, res) => {
 
         const filter = {};
 
-        if (role !== "admin") {
+        if (!role.includes("admin")) {
             if (type === "requestedByMe") filter["askedBy._id"] = userId;
             if (type === "requestedToMe") filter["askedTo._id"] = userId;
         }

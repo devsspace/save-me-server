@@ -10,11 +10,11 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
-    role: {
+    role: [{
         type: String,
         required: true,
         default: "donor",
-    },
+    }],
     // permissions: [{ name: String }],
     name: {
         type: String,

@@ -19,7 +19,7 @@ export const getRequests = async (req, res) => {
   let filter = {};
 
   try {
-    if(role !== "admin") filter["requestedBy._id"] = userId;
+    if(!role.includes("admin")) filter["requestedBy._id"] = userId;
 
     const data = await BloodRequest.find(filter);
 

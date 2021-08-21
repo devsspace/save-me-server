@@ -10,11 +10,10 @@ const waitingListSchema = new Schema({
     type: Schema.Types.ObjectId,
     required: true,
   },
+  // Optionals
   serial: {
     type: Number,
-    required: true,
   },
-  // Optionals
   email: {
     type: String,
   },
