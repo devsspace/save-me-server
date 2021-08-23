@@ -4,7 +4,7 @@ import express from 'express';
 import http from 'http';
 import mongoose from 'mongoose';
 import { Server } from 'socket.io';
-import { handlePatients } from './controllers/consults.controller.js';
+import { handlePatients, handleVideoChat } from './controllers/consults.controller.js';
 import consultRoutes from './routes/consults.js';
 import doctorRoutes from './routes/doctors.js';
 import donationRoutes from './routes/donations.js';
@@ -39,6 +39,7 @@ const io = new Server(server, {
 
 io.on("connection", (socket) => {
   handlePatients(io, socket)
+  handleVideoChat(io, socket)
 })
 
 

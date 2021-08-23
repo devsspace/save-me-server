@@ -22,12 +22,32 @@ export const handlePatients = (io, socket) => {
     // });
 
     const newPatient = await WaitingList.create(patientInfo);
-
     io.emit("patient-added", newPatient, waiting + 1);
   });
-
+  
   socket.on("remove-patient", async (patientId, serial) => {
     await WaitingList.deleteOne({ patientId });
     io.emit("patient-removed", patientId, serial - 1);
   });
 };
+
+export const handleVideoChat = (io, socket) => {
+  socket.on("start-call", (userId, doctorId) => {
+    socket.emit("me", userId);
+    socket.join(doctorId)
+  })
+
+    socket.on("disconnect", () => {
+      socket.broadcast.emit("callEnded");
+    });
+
+    socket.on("callUser", ({ userToCall, signalData, from, docName, patientName }) => {
+      console.log("Calling: "+ from + " ===>" + userToCall)
+      console.log("Calling: "+ docName + " ===>" + patientName)
+      
+      io.to(from).emit("callUser", { signal: signalData, from, docName, patientName });
+    });
+    socket.on("answerCall", (data) => {
+      io.to(data.to).emit("callAccepted", data.signal);
+    });
+}
