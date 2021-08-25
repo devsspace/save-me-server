@@ -38,8 +38,10 @@ export const handleVideoChat = (io, socket) => {
   })
 
     socket.on("disconnect", () => {
-      socket.broadcast.emit("callEnded");
     });
+    socket.on("callEnded", () => {
+      socket.broadcast.emit("callEnded");
+    })
 
     socket.on("callUser", ({ userToCall, signalData, from, docName, patientName }) => {
       console.log("Calling: "+ from + " ===>" + userToCall)
@@ -47,7 +49,10 @@ export const handleVideoChat = (io, socket) => {
       
       io.to(from).emit("callUser", { signal: signalData, from, docName, patientName });
     });
-    socket.on("answerCall", (data) => {
-      io.to(data.to).emit("callAccepted", data.signal);
+    socket.on("answerCall", ({signal, to}) => {
+      io.to(to).emit("callAccepted", signal);
     });
+    socket.on("cm", (camera, mic) => {
+      socket.broadcast.emit("cm", camera, mic)
+    })
 }
