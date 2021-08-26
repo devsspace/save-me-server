@@ -2,49 +2,66 @@ import mongoose from "mongoose";
 const { Schema, model } = mongoose
 
 const userSchema = new Schema({
-    email: {
-        type: String,
-        required: true,
+  email: {
+    type: String,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  role: [
+    {
+      type: String,
+      required: true,
+      default: "donor",
     },
-    password: {
-        type: String,
-        required: true,
-    },
-    role: [{
-        type: String,
-        required: true,
-        default: "donor",
-    }],
-    // permissions: [{ name: String }],
-    name: {
-        type: String,
-    },
-    username: {
-        type: String
-    },
-    profilePic: {
-        type: String,
-    },
-    phoneNumber: {
-        type: String,
-    },
-    location: {
-        type: String,
-    },
-    bloodGroup: {
-        type: String,
-    },
-    status: {
-        type: String,
-    },
-    eligibility: {
-        type: String,
-        default: "eligible"
-    },
-    lastDonationDate: {
-        type: Date,
-    }
-})
+  ],
+  // permissions: [{ name: String }],
+  name: {
+    type: String,
+  },
+  username: {
+    type: String,
+  },
+  profilePic: {
+    type: String,
+  },
+  phoneNumber: {
+    type: String,
+  },
+  location: {
+    type: String,
+  },
+  bloodGroup: {
+    type: String,
+  },
+  eligibility: {
+    type: String,
+    default: "eligible",
+  },
+  lastDonationDate: {
+    type: Date,
+  },
+  degrees: {
+    type: Array,
+  },
+  speciality: {
+    type: Array,
+  },
+  bmdcNumber: {
+    type: String,
+  },
+  consultationFee: {
+    type: Number,
+  },
+  followUpFee: {
+    type: Number,
+  },
+  totalExperienceYears: {
+    type: Number,
+  },
+});
 // .plugin(permissions);
 
 // // mutator bcrypt password method implement here
