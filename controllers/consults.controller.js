@@ -25,9 +25,9 @@ export const handlePatients = (io, socket) => {
     io.emit("patient-added", newPatient, waiting + 1);
   });
   
-  socket.on("remove-patient", async (patientId, serial) => {
+  socket.on("remove-patient", async (patientId, serial, byDoctor) => {
     await WaitingList.deleteOne({ patientId });
-    io.emit("patient-removed", patientId, serial - 1);
+    io.emit("patient-removed", patientId, serial - 1, byDoctor);
   });
 };
 
