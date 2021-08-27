@@ -2,6 +2,7 @@ import User from "../models/User.model.js";
 
 export const getDoctors = async (req, res) => {
   let filter = { role: "doctor" };
+  const {valueToLimit} = req.query;
   if (Object.keys(req.query)?.length) {
     const { bloodGroup, location, date, eligibility } = req.query;
     const bloodGroupRegex = new RegExp(bloodGroup, "i");
@@ -12,19 +13,16 @@ export const getDoctors = async (req, res) => {
   }
 
   try {
-    const doctors = await User.find(filter);
-
+    const doctors = await User.find(filter).limit(valueToLimit? +valueToLimit : 0);
     res.status(200).json(doctors);
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: "Something went wrong!" });
   }
 };
 
 export const getDoctor = async (req, res) => {
   const { doctorId } = req.params;
-  console.log(req.params)
-
+  
   if (!doctorId.match(/^[0-9a-fA-F]{24}$/)) return res.json({ message: "No profile found" });
 
 
