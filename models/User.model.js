@@ -61,6 +61,10 @@ const userSchema = new Schema({
   totalExperienceYears: {
     type: Number,
   },
+  isVerifiedDoctor: {
+    type: String,
+    default: "Not Verified",
+  },
 });
 // .plugin(permissions);
 

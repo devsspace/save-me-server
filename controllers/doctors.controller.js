@@ -1,8 +1,33 @@
+import { JWT } from "jwt-auth-helper";
 import User from "../models/User.model.js";
 
 export const getDoctors = async (req, res) => {
+  let role, admin;
+  
+  // Checking if admin or other user
+  try {
+    const jwt = new JWT();
+    const token = req.headers.authorization?.split(" ")[1];
+    let decodedData;
+
+    if(token){
+      decodedData = jwt.verifyToken(token);
+      role = decodedData?.role;
+      admin = role?.includes("admin")
+    }
+  } catch (error) {
+    console.log(error)
+  }
+  
   let filter = { role: "doctor" };
+
+  
+  if (!admin) {
+    filter.isVerifiedDoctor = "Verified";
+  }
+  
   const {valueToLimit} = req.query;
+
   if (Object.keys(req.query)?.length) {
     const { bloodGroup, location, date, eligibility } = req.query;
     const bloodGroupRegex = new RegExp(bloodGroup, "i");
@@ -20,6 +45,7 @@ export const getDoctors = async (req, res) => {
   }
 };
 
+
 export const getDoctor = async (req, res) => {
   const { doctorId } = req.params;
   
@@ -31,6 +57,33 @@ export const getDoctor = async (req, res) => {
     if (!existingUser) return res.json({ message: "User doesn't exist!" });
 
     res.status(200).json(existingUser);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Something went wrong!" });
+  }
+};
+
+
+export const updateDoctor = async (req, res) => {
+  const { doctorId } = req.params;
+  const { role } = req;
+  const doctorInfo = req.body;
+
+  if (!doctorId.match(/^[0-9a-fA-F]{24}$/))
+    return res.json({ message: "No profile found" });
+
+  try {
+    if(!role?.includes("admin")) return res.json({ message: "Unauthorized!"});
+
+    const existingUser = await User.findOne({ _id: doctorId });
+
+    if (!existingUser) return res.json({ message: "Doctor doesn't exist!" });
+    
+    const data = await User.updateOne({ _id: doctorId }, {isVerifiedDoctor: doctorInfo.isVerifiedDoctor});
+    
+    if(data.nModified) return res.status(200).json(doctorInfo);
+
+    return res.json({ message: "Nothing's Changed" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Something went wrong!" });
