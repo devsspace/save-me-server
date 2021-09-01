@@ -14,24 +14,30 @@ const consultationHistorySchema = new Schema({
     type: String,
     required: true,
   },
-  billingDetails: {
-
-  },
-  card: {
-
-  },
-  created: {
-    type: Number,
-  },
-  type: {
+  fee: {
     type: String,
+    required: true,
   },
-  object: {
-    type: String,
+
+  paymentInfo: {
+    billingDetails: {
+      type: Schema.Types.Mixed,
+    },
+    card: {
+      type: Schema.Types.Mixed,
+    },
+    created: {
+      type: Number,
+    },
+    type: {
+      type: String,
+    },
+    object: {
+      type: String,
+    },
+    livemode: {
+      type: Boolean,
+    },
   },
-  livemode: {
-    type: Boolean,
-  },
-  
 });
 export default model("ConsultationHistory", consultationHistorySchema);
