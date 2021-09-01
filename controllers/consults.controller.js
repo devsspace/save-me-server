@@ -1,4 +1,34 @@
+import ConsultationHistory from "../models/ConsultationHistory.model.js";
 import WaitingList from "../models/WaitingList.model.js";
+
+
+
+export const addPayment = async (req, res) => {
+  const paymentInfo = req.body;
+
+  try {
+    if(!paymentInfo.id) return res.json({ message: "Invalid!"});
+
+    const data = await ConsultationHistory.create(paymentInfo);
+
+    return res.status(200).json(data);
+
+  } catch (error) {
+    console.log(error);
+    res.json({ message: error.message || "something went wrong" });
+  }
+};
+
+export const checkPayment = async (req, res) => {
+  const { userId } = req;
+
+  try {
+    const patient = await ConsultationHistory.findOne({ patientId: userId });
+    res.json(patient);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 
 export const getWaitingList = async (req, res) => {
