@@ -5,10 +5,10 @@ import WaitingList from "../models/WaitingList.model.js";
 
 export const addPayment = async (req, res) => {
   const paymentInfo = req.body;
-
   try {
-    if(!paymentInfo.id) return res.json({ message: "Invalid!"});
-
+    if(!paymentInfo.paymentInfo.id) return res.json({ message: "Invalid!"});
+    
+    console.log(paymentInfo)
     const data = await ConsultationHistory.create(paymentInfo);
 
     return res.status(200).json(data);

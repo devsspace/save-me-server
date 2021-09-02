@@ -10,16 +10,16 @@ const consultationHistorySchema = new Schema({
     type: Schema.Types.ObjectId,
     required: true,
   },
-  id: {
-    type: String,
-    required: true,
-  },
   fee: {
-    type: String,
+    type: Number,
     required: true,
   },
-
+  
   paymentInfo: {
+    id: {
+      type: String,
+      required: true,
+    },
     billingDetails: {
       type: Schema.Types.Mixed,
     },
